@@ -5,9 +5,14 @@
 package br.com.gustavo.OSapiApplication.controller;
 
 import br.com.gustavo.OSapiApplication.domain.model.Cliente;
-import java.util.ArrayList;
+import br.com.gustavo.OSapiApplication.domain.repository.ClienteRepository;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,16 +22,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ClienteController {
 
-    List<Cliente> ListaClientes;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     @GetMapping("/clientes")
     public List<Cliente> listas() {
+        //   return clienteRepository.findAll();
+        return clienteRepository.findByNome("KGe");
+    }
 
-        ListaClientes = new ArrayList<Cliente>();
-        ListaClientes.add(new Cliente(1, "KGe", "kge@teste.com", "11-99999-9999"));
-        ListaClientes.add(new Cliente(2, "Maria", "maria@teste.com", "11-88888-8888"));
-        ListaClientes.add(new Cliente(3, "Joao", "joao@teste.com", "11-77777-7777"));
-
-        return ListaClientes;
+    @GetMapping("/clientes/{clienteID}")
+    public Cliente buscar(@PathVariable Long clienteID) {
+        Optional<Cliente> cliente = clienteRepository.findById(clienteID);
+        return cliente.orElse(null);
     }
 }
