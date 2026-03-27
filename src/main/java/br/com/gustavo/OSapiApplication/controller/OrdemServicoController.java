@@ -8,6 +8,10 @@ import br.com.gustavo.OSapiApplication.domain.dto.AtualizaStatusDTO;
 import br.com.gustavo.OSapiApplication.domain.model.OrdemServico;
 import br.com.gustavo.OSapiApplication.domain.repository.OrdemServicoRepository;
 import br.com.gustavo.OSapiApplication.domain.service.OrdemServicoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author sesi3dia
  */
+
 @RestController
 public class OrdemServicoController {
 
@@ -44,9 +49,16 @@ public class OrdemServicoController {
         //return clienteRepository.findByNome("KGe");
         //return clienteRepository.findByNomeContaining("Silva");
     }
+@Operation(summary = "Get a product by id", description = "Returns a product as per the id")  
+@ApiResponses(value = {
+    @ApiResponse(responseCode = "200",
+            description = "Successfully retrieved"),
+    @ApiResponse(responseCode = "404",
+            description = "Not found - The product was not found") 
+}) 
 
     @GetMapping("/ordem-servico/{clienteID}")
-    public ResponseEntity<List<OrdemServico>> buscar(@PathVariable Long clienteID) {
+    public ResponseEntity<List<OrdemServico>> buscar(@Parameter (name = "id", description = "Product id", example = "1")@PathVariable Long clienteID) {
         List<OrdemServico> ordensCliente = ordemServicoRepository.findByClienteId(clienteID);
         if (ordensCliente.isEmpty()) {
             return ResponseEntity.notFound().build();

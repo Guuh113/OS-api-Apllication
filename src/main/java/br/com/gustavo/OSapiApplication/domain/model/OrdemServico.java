@@ -4,6 +4,7 @@
  */
 package br.com.gustavo.OSapiApplication.domain.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,19 +22,23 @@ import java.util.Objects;
  */
 @Entity
 public class OrdemServico {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+    @Schema(name = "ID da Ordem Servico", example = "1", required = true)
+
     @ManyToOne
     private Cliente cliente;
-    
+    @Schema(name = "Descrição da ordem serviço", example = "Product 1", required = false) 
     private String descricao;
-    private BigDecimal preco;
     
+    @Schema(name = "Preço do produto", example = "$100.00", required = true)
+    private BigDecimal preco;
+
     @Enumerated(EnumType.STRING)
     private StatusOrdemServico status;
-    
+
     private LocalDateTime dataAbertura;
     private LocalDateTime dataFinalizacao;
 
@@ -123,6 +128,5 @@ public class OrdemServico {
         final OrdemServico other = (OrdemServico) obj;
         return Objects.equals(this.id, other.id);
     }
-    
-    
+
 }
