@@ -57,7 +57,7 @@ public class OrdemServicoController {
             description = "Not found - The product was not found") 
 }) 
 
-    @GetMapping("/ordem-servico/{clienteID}")
+    @GetMapping("/ordem-'   servico/{clienteID}")
     public ResponseEntity<List<OrdemServico>> buscar(@Parameter (name = "id", description = "Product id", example = "1")@PathVariable Long clienteID) {
         List<OrdemServico> ordensCliente = ordemServicoRepository.findByClienteId(clienteID);
         if (ordensCliente.isEmpty()) {
